@@ -108,6 +108,16 @@ route(r'^admin/', admin.site.urls)
 
 
 # -------------------
+# Third-party apps
+# -------------------
+
+from django.conf.urls import include
+from example.third_party import app
+
+route(r'^third-party/', include(app))
+
+
+# -------------------
 # Template tags
 # -------------------
 

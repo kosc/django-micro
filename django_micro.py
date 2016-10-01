@@ -15,6 +15,37 @@ __all__ = ['command', 'configure', 'run', 'route', 'template']
 
 
 # -------------------
+# Abstract application
+# -------------------
+
+
+class Micro:
+    def __init__(self):
+        self.urlpatterns = []
+        self._setup_module()
+
+    def _setup_module(self):
+        self._app_module = sys.modules[inspect.stack()[2][0].f_locals['__name__']]
+        self._app_label = os.path.basename(os.path.dirname(os.path.abspath(self._app_module.__file__)))
+
+    def route(self, pattern, view_func=None, *args, **kwargs):
+        def decorator(view_func):
+            if hasattr(view_func, 'as_view'):
+                view_func = view_func.as_view()
+            self.urlpatterns.append(
+                url(pattern, view_func, *args, **kwargs))
+            return view_func
+
+        # allow use decorator directly
+        # route(r'^$', show_index)
+        if view_func:
+            return decorator(view_func)
+
+        return decorator
+
+
+
+# -------------------
 # Application module
 # -------------------
 
