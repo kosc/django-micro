@@ -100,6 +100,7 @@ def configure(config_dict={}, enable_admin=False):
             'django.contrib.auth.middleware.AuthenticationMiddleware',
             'django.middleware.security.SecurityMiddleware',
             'django.middleware.common.CommonMiddleware',
+            'django.contrib.messages.middleware.MessageMiddleware',
         ]
         kwargs['INSTALLED_APPS'].extend(admin_apps)
         if 'MIDDLEWARE' in kwargs.keys():
